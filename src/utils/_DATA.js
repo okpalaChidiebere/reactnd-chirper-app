@@ -1,3 +1,9 @@
+/*
+This represents our fake database
+
+We have users with a buch of tweets
+*/
+
 let users = {
   sarah_edo: {
     id: "sarah_edo",
@@ -202,6 +208,8 @@ let tweets = {
   },
 }
 
+/*Below we have different methods to get access to our data
+We never have to interact with this methods directly */
 export function _getUsers () {
   return new Promise((res, rej) => {
     setTimeout(() => res({...users}), 1000)
