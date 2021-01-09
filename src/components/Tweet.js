@@ -4,13 +4,21 @@ import { formatTweet, formatDate } from '../utils/helpers'
 import { TiArrowBackOutline } from 'react-icons/ti'
 import { TiHeartOutline } from 'react-icons/ti'
 import { TiHeartFullOutline } from 'react-icons/ti'
+import { handleToggleLike } from '../actions/tweets'
 
 class Tweet extends Component {
 
     handleLike = (e) => {
         e.preventDefault()
     
-        // todo: Handle Like Tweet.
+        //Note we this component already has access to the dispatch function because, it's a Container component. The connect method from react-redux pkg makes the possible 
+        const { dispatch, tweet, authedUser } = this.props
+        
+        dispatch(handleToggleLike({
+            id: tweet.id,
+            hasLiked: tweet.hasLiked,
+            authedUser
+        }))
     }
 
     toParent = (e, id) => {
