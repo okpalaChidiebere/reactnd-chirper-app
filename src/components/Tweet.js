@@ -1,8 +1,22 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { formatTweet } from '../utils/helpers'
+import { formatTweet, formatDate } from '../utils/helpers'
+import { TiArrowBackOutline } from 'react-icons/ti'
+import { TiHeartOutline } from 'react-icons/ti'
+import { TiHeartFullOutline } from 'react-icons/ti'
 
 class Tweet extends Component {
+
+    handleLike = (e) => {
+        e.preventDefault()
+    
+        // todo: Handle Like Tweet.
+    }
+
+    toParent = (e, id) => {
+        e.preventDefault()
+        // todo: Redirect to main parent Tweet that we are replying to.
+    }
 
     render(){
 
@@ -12,11 +26,45 @@ class Tweet extends Component {
             return <p>This Tweet doesn't existd</p>
         }
 
+        const {
+            name, avatar, timestamp, text, hasLiked, likes, replies, parent
+        } = tweet
+
         console.log(this.props) //to confirm that we are getting the information of every tweet we are going to be rendring
 
         return(
-            <div>
-
+            <div className='tweet'>
+                <img
+                src={avatar}
+                alt={`Avatar of ${name}`}
+                className='avatar'
+            />
+            <div className='tweet-info'>
+                <div>
+                    <span>{name}</span>
+                    <div>{formatDate(timestamp)}</div>
+                    {/*This could be null, so we only redner this when this property exists*/
+                    parent && (
+                    <button className='replying-to' onClick={(e) => this.toParent(e, parent.id)}>
+                    Replying to @{parent.author}
+                    </button>
+                    )}
+                    <p>{text}</p>
+                </div>
+                {/* Div for reply and linke buttons */}
+                <div className='tweet-icons'>
+                    <TiArrowBackOutline className='tweet-icon' />
+                    <span>{/*If the tweet has 0 replies we dont show the replies count */
+                    replies !== 0 && replies}</span>
+                    <button className='heart-button' onClick={this.handleLike}>
+                    {hasLiked === true
+                    ? <TiHeartFullOutline color='#e0245e' className='tweet-icon' />
+                    : <TiHeartOutline className='tweet-icon'/>}
+                    </button>
+                <span>{ /*If the tweet has 0 likes we dont show the likes count */
+                likes !== 0 && likes}</span>
+          </div>
+        </div>
             </div>
         )
 
