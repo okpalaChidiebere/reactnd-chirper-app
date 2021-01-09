@@ -8,7 +8,7 @@ import { setAuthedUser } from './authedUser'
 const AUTHED_ID = 'tylermcginnis'
 
 
-export const handleInitialData = async () => (dispatch) => {
+export const handleInitialData = () => async (dispatch) => {
 
     try {
 
@@ -17,7 +17,7 @@ export const handleInitialData = async () => (dispatch) => {
         dispatch(receiveTweets(tweets))
         dispatch(setAuthedUser(AUTHED_ID)) //we dispatch setting the username as the authedUser in our Redux store
     }catch(e){
-        console.log('ERROR!', error)
+        console.log('ERROR!', e)
         alert("Error fetching data")
     }
 }
