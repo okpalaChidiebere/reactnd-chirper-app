@@ -11,11 +11,13 @@ import { combineReducers } from 'redux'
 import authedUser from './authedUser'
 import users from './users'
 import tweets from './tweets'
+import { loadingBarReducer } from 'react-redux-loading'
 
 //We combine all reducers into a main root reducer because the createStore function only accepts a single reducer
 export default combineReducers({
   authedUser,
   users,
-  tweets
+  tweets,
+  loadingBar: loadingBarReducer
 }) 
 
