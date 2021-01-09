@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { handleInitialData } from '../actions/shared'
+import Dashboard from './Dashboard'
 
 
 
@@ -13,13 +14,22 @@ class App extends Component {
   render() {
     return (
       <div>
-        Starter Code
+        {this.props.loading === true
+          ? null // we will not load anything until the authedUser is authenticated. Therefore a value is there
+        : <Dashboard />}
       </div>
     )
   }
 }
 
-export default connect()(App) 
+//authedUser is the slice of the state tree that this component cares about
+function mapStateToProps ({ authedUser }) {
+  return {
+    loading: authedUser === null
+  }
+}
+
+export default connect(mapStateToProps)(App) 
 /* 
 - Using the connect() function upgrades a component to a container. 
 - Containers can read state from the store and dispatch actions.
