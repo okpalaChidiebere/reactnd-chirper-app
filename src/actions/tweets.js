@@ -1,7 +1,30 @@
-import { saveLikeToggle } from '../utils/api'
+import { saveLikeToggle, saveTweet } from '../utils/api'
+import { showLoading, hideLoading } from 'react-redux-loading' //for showing the loading bar when the user is adding a new tweet
 
 export const RECEIVE_TWEETS = 'RECEIVE_TWEETS'
 export const TOGGLE_LIKE = 'TOGGLE_LIKE'
+export const ADD_TWEET = 'ADD_TWEET'
+
+const addTweet = (tweet) => ({
+  type: ADD_TWEET,
+  tweet,
+})
+
+export const handleAddTweet = (text, replyingTo) => async (dispatch, getState) => {
+
+  const { authedUser } = getState() //getState method returns the current state of our store
+
+  try{
+    dispatch(showLoading())
+    const tweet = await saveTweet({ text, author: authedUser, replyingTo })
+    dispatch(addTweet(tweet))
+    dispatch(hideLoading())
+  }catch(e){
+    console.warn('Error in handleAddTweet: ', e)
+    alert('There was an error adding the tweet. Try again.')
+  }
+}
+
 
 //receive tweets action creator
 export function receiveTweets (tweets) {
