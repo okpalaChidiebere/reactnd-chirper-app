@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import { handleInitialData } from '../actions/shared'
 import Dashboard from './Dashboard'
 import LoadingBar from 'react-redux-loading'
-import NewTweet from './NewTweet' //we will redner this component instead of dashboard for now. During testing
+import NewTweet from './NewTweet' 
+import TweetPage from './TweetPage' //we will redner this component instead of dashboard for now. During testing
 
 
 class App extends Component {
@@ -18,7 +19,10 @@ class App extends Component {
         <LoadingBar />
         {this.props.loading === true
           ? null // we will not load anything until the authedUser is authenticated. Therefore a value is there
-        : <NewTweet />}
+        : <TweetPage match={ /*For now we will fake the id of a tweet that the React Router will eventually pass 
+          to this component. So then when do actually add in the React Router we dont need to change anything
+          because we passed match.params.id*/
+          {params: {id: '8xf0y6ziyjabvozdd253nd'}}}/>}
       </div>
     )
   }

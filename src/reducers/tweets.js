@@ -30,12 +30,12 @@ export default function tweets (state = {}, action) {
         replyingTo = {
           [tweet.replyingTo]: {
             ...state[tweet.replyingTo],
-            replies: state[tweet.replyTo].replies.concat([tweet.id]) //we go the reply array of the tweet we are replying to and add the id of this new tweet we posted
+            replies: state[tweet.replyingTo].replies.concat([tweet.id]) //we go the reply array of the tweet we are replying to and add the id of this new tweet we posted
           }
         }
       }
 
-      
+
       return {
         ...state,
         [action.tweet.id]: action.tweet, //adding our new tweet to our new tweet state to the tweets slice state
