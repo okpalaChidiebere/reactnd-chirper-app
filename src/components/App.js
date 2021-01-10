@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { handleInitialData } from '../actions/shared'
 import Dashboard from './Dashboard'
 import LoadingBar from 'react-redux-loading'
+import NewTweet from './NewTweet' //we will redner this component instead of dashboard for now. During testing
 
 
 class App extends Component {
@@ -17,7 +18,7 @@ class App extends Component {
         <LoadingBar />
         {this.props.loading === true
           ? null // we will not load anything until the authedUser is authenticated. Therefore a value is there
-        : <Dashboard />}
+        : <NewTweet />}
       </div>
     )
   }
