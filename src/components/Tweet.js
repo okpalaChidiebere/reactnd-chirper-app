@@ -5,6 +5,7 @@ import { TiArrowBackOutline } from 'react-icons/ti'
 import { TiHeartOutline } from 'react-icons/ti'
 import { TiHeartFullOutline } from 'react-icons/ti'
 import { handleToggleLike } from '../actions/tweets'
+import { Link, withRouter } from 'react-router-dom'
 
 class Tweet extends Component {
 
@@ -23,7 +24,8 @@ class Tweet extends Component {
 
     toParent = (e, id) => {
         e.preventDefault()
-        // todo: Redirect to main parent Tweet that we are replying to.
+        //the non declarative way of directing the user to a new page
+        this.props.history.push(`/tweet/${id}`)
     }
 
     render(){
@@ -35,13 +37,13 @@ class Tweet extends Component {
         }
 
         const {
-            name, avatar, timestamp, text, hasLiked, likes, replies, parent
+            name, avatar, timestamp, text, hasLiked, likes, replies, parent, id
         } = tweet
 
         console.log(this.props) //to confirm that we are getting the information of every tweet we are going to be rendring
 
         return(
-            <div className='tweet'>
+            <Link to={`/tweet/${id}`} className='tweet'>
                 <img
                 src={avatar}
                 alt={`Avatar of ${name}`}
@@ -73,7 +75,7 @@ class Tweet extends Component {
                 likes !== 0 && likes}</span>
           </div>
         </div>
-            </div>
+            </Link>
         )
 
     }
@@ -95,4 +97,10 @@ const mapStateToProps = ( {authedUser, users, tweets}, { id } ) => {
     }
 }
 
-export default connect(mapStateToProps)(Tweet)
+/*
+The problem was that our Tweet component is not being renderd by react-router so thisthis.props.history.push
+So we had to import withRouter from react-router pkg
+withRouter will wrap out Connected Componet which wraps our Tweet Component
+So this allows us to successfully route the user to TwiterPage Component from each tweet
+When they click eg `Replying to @dan_abramov` */
+export default withRouter(connect(mapStateToProps)(Tweet))

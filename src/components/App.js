@@ -1,10 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
+import { BrowserRouter as Router, Route } from 'react-router-dom' //note we re-named BrowsermRouter to be Router
 import { connect } from 'react-redux'
 import { handleInitialData } from '../actions/shared'
 import Dashboard from './Dashboard'
 import LoadingBar from 'react-redux-loading'
 import NewTweet from './NewTweet' 
-import TweetPage from './TweetPage' //we will redner this component instead of dashboard for now. During testing
+import TweetPage from './TweetPage'
+import Nav from './Nav'
 
 
 class App extends Component {
@@ -15,15 +17,23 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-        <LoadingBar />
-        {this.props.loading === true
-          ? null // we will not load anything until the authedUser is authenticated. Therefore a value is there
-        : <TweetPage match={ /*For now we will fake the id of a tweet that the React Router will eventually pass 
-          to this component. So then when do actually add in the React Router we dont need to change anything
-          because we passed match.params.id*/
-          {params: {id: '8xf0y6ziyjabvozdd253nd'}}}/>}
-      </div>
+      <Router>
+        {/*Router component only allows for a single child element. THis is why we 
+        wrap our loading bar and our div together */}
+        <Fragment>
+          <LoadingBar />
+          <div className='container'>
+            <Nav />
+            {this.props.loading === true
+              ? null  // we will not load anything until the authedUser is authenticated. Therefore a value is there
+              : <div>
+                  <Route path='/' exact component={Dashboard} />
+                  <Route path='/tweet/:id' component={TweetPage} />
+                  <Route path='/new' component={NewTweet} />
+                </div>}
+          </div>
+        </Fragment>
+      </Router>
     )
   }
 }

@@ -20,10 +20,12 @@ Our Ui consists of Header, text area and the sumbit button
 import React, { Component } from 'react'
 import { connect } from 'react-redux' //we need to get access to the dispatch, so we can connet this component
 import { handleAddTweet } from '../actions/tweets' // the action we want to invoke
+import { Redirect } from 'react-router-dom'
 
 class NewTweet extends Component {
   state = {
     text: '',
+    toHome: false,
   }
   handleChange = (e) => {
     const text = e.target.value
@@ -45,13 +47,18 @@ class NewTweet extends Component {
     //console.log('New Tweet: ', text)
 
     this.setState(() => ({
-      text: ''
+      text: '',
+      toHome: id //if there is an id we know that the user is replying to a tweet
+        ? false //We want to remain on the page component where we are replying to a tweet 
+        : true, //and return to the Dashboard if we post a new tweet
     }))
   }
   render() {
-    const { text } = this.state
+    const { text, toHome } = this.state
 
-    {/* todo: Redirect to / if submitted */}
+    if (toHome === true) {
+        return <Redirect to='/' />
+    }  
 
     const tweetLeft = 280 - text.length
 
