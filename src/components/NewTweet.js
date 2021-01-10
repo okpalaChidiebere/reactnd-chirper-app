@@ -18,6 +18,8 @@ Our Ui consists of Header, text area and the sumbit button
 */
 
 import React, { Component } from 'react'
+import { connect } from 'react-redux' //we need to get access to the dispatch, so we can connet this component
+import { handleAddTweet } from '../actions/tweets' // the action we want to invoke
 
 class NewTweet extends Component {
   state = {
@@ -34,10 +36,13 @@ class NewTweet extends Component {
     e.preventDefault()
 
     const { text } = this.state
+    /*Remember that this NewTweet component will also be rendered in the page where you are replying to a tweet
+    So if this component is passed a tweetId property, the we know we are replying to a new tweet. So the id will not be null in  handleAddTweet*/
+    const { dispatch, id } = this.props
 
-    // todo: Eventually we will add Tweet to Store
+    dispatch(handleAddTweet(text, id))
 
-    console.log('New Tweet: ', text)
+    //console.log('New Tweet: ', text)
 
     this.setState(() => ({
       text: ''
@@ -79,4 +84,4 @@ class NewTweet extends Component {
   }
 }
 
-export default NewTweet 
+export default connect()(NewTweet) 
